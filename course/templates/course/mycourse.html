@@ -6,7 +6,7 @@
             Not registered in any course
         {% endif %}
         {% for course in registered_courses %}
-            <li><a href='{%url "course:course" course.id %}'>Course {{course}}</a></li>
+            <li><b><a href='{%url "course:course" course.id %}'>{{course}}</a></li></b>
         {% endfor %}
     </ul>
     <a href='{%url "users:index" %}'>Back</a>

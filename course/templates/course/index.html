@@ -5,8 +5,8 @@
     <h1>Courses</h1>
     <ul>
         {% for course in courses %}
-            <li><a href='{%url "course:course" course.id %}'>Course {{course}}</a></li>
+            <li><b><a href='{%url "course:course" course.id %}'>{{course}}</a></b></li>
         {% endfor %}
     </ul>
-    <a href='{%url "users:index" %}'>Menu</a>
+    <a href='{%url "users:index" %}'>Back</a>
 {% endblock %}

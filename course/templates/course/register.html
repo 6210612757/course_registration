@@ -2,9 +2,10 @@
 {% block body %}
 
     <h1>Availiable Courses for {{username}}</h1>
+    {% if request.user.is_superuser %}
     <ul>
         {% for course in open_courses %}
-            <li><a href='{%url "course:course" course.id %}'>{{course}}</a>
+            <li><a href='{%url "course:course" course.id %}'>{{course}}</a></b>
                 <a href='{%url "course:temp_register" course.id %}'>Register</a>
             </li>
         {% endfor %}
@@ -12,11 +13,29 @@
     <h1>Willing to register</h1>
     <ul>
         {% for course in temp_registered %}
-            <li><a href='{%url "course:course" course.id %}'>{{course}}</a>
+            <li><b><a href='{%url "course:course" course.id %}'>{{course}}</a></b>
             <a href='{%url "course:deregister" course.id %}'>Remove</a>
         </li>
         {% endfor %}
     </ul>
+    {% else %}
+    <ul>
+        {% for course in open_courses %}
+            <li><b>{{course}}</b>
+                <a href='{%url "course:temp_register" course.id %}'>Register</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <h1>Willing to register</h1>
+    <ul>
+        {% for course in temp_registered %}
+            <li><b>{{course}}</b>
+            <a href='{%url "course:deregister" course.id %}'>Remove</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     <a href='{%url "course:confirm_register" %}'>Confirm Registration</a>
     <br>
     <a href='{%url "users:index" %}'>Back</a>
