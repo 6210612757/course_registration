@@ -1,0 +1,23 @@
+{% extends "course/layout.html" %}
+{% block body %}
+
+    <h1>Availiable Courses for {{username}}</h1>
+    <ul>
+        {% for course in open_courses %}
+            <li><a href='{%url "course:course" course.id %}'>{{course}}</a>
+                <a href='{%url "course:temp_register" course.id %}'>Register</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <h1>Willing to register</h1>
+    <ul>
+        {% for course in temp_registered %}
+            <li><a href='{%url "course:course" course.id %}'>{{course}}</a>
+            <a href='{%url "course:deregister" course.id %}'>Remove</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href='{%url "course:confirm_register" %}'>Confirm Registration</a>
+    <br>
+    <a href='{%url "users:index" %}'>Back</a>
+{% endblock %}

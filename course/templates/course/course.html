@@ -1,0 +1,17 @@
+{% extends "course/layout.html" %} 
+{% block body %}
+
+<h1>Course {{course.id}}</h1>
+<ul>
+    <li>Course name : {{ course.name }}</li>
+    <li>Course code : {{ course.code }}</li>
+    <li>Semester : {{ course.semester }}</li>
+    <li>Year : {{course.year}}</li>
+    <li>Quota amount : {{course.amount}}</li>
+    <li>Status : {{course.status}}</li>
+    {% for student in course.registered.all %}
+    <li>{{student}}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
