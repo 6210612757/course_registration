@@ -29,11 +29,18 @@ def register(request) :
     open_course = []
     user_temp = Temp_register.objects.get_or_create(user = request.user)[0]
     temp_registered = user_temp.register.all()
+    registered_course = []
+    for course in Course.objects.all() :
+        for student in course.registered.all():
+            if request.user == student.user:
+                registered_course.append(course)
+
     for course in Course.objects.all():
-        
-        if course.status and (username not in [i.user.username for i in course.registered.all()]) and (course not in user_temp.register.all()):
+       
+        if not course.isfull() and (course not in user_temp.register.all()):
             open_course.append(course)
-    
+        if (course in registered_course) and (course not in user_temp.register.all()) :
+            open_course.append(course)
     return render(request, "course/register.html", {
         "username" : username,
         "open_courses": open_course,
@@ -58,26 +65,38 @@ def temp_deregister(request,course_id) :
     user_temp.register.remove(this_course)
     user_temp.save()
     return HttpResponseRedirect(reverse("course:register"))
+    
 
 def confirm_register(request) :
     user_student = Student.objects.get (user = request.user)
     user_temp = Temp_register.objects.get_or_create(user = request.user)[0]
     
+    registered_course = []
+    for course in Course.objects.all() :
+        for student in course.registered.all():
+            if request.user == student.user:
+                registered_course.append(course)
+    for course in registered_course :
+        course.registered.remove(user_student)
+        course.save()
     for course in user_temp.register.all() :
-        course.registered.add(user_student)
-        if course.isfull() :
+        if user_student not in course.registered.all() :
+            course.registered.add(user_student)
+        if course.isfull():
             course.status = False
+        else :
+            course.status = True
         course.save()
     return HttpResponseRedirect(reverse("course:mycourse"))
 
 def mycourse(request) :
     username = request.user.username
-    registered_course = []
+    registered_courses = []
     for course in Course.objects.all() :
         for student in course.registered.all():
             if username == student.user.username:
-                registered_course.append(course)
+                registered_courses.append(course)
 
     return render(request, "course/mycourse.html", {
-        "registered_courses": registered_course,
+        "registered_courses": registered_courses,
     })
