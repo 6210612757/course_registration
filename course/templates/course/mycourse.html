@@ -2,7 +2,9 @@
 {% block body %}
 
     <h1>My Courses</h1>
-    <ul>
+    <ul>{% if registered_courses|length <= 0 %}
+            Not registered in any course
+        {% endif %}
         {% for course in registered_courses %}
             <li><a href='{%url "course:course" course.id %}'>Course {{course}}</a></li>
         {% endfor %}
