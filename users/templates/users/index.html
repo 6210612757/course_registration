@@ -1,20 +1,34 @@
-{% extends "users/layout.html" %}
-
-{% block body %}
-
-    <h1>Welcome, {{ request.user.first_name }}</h1>
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <style>body {
+        background-image: url("https://source.unsplash.com/nN1HSDtKdlw");
+        background-size: cover;
+    }
+        body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+    </style>
+    <head>
+        <title>Course Registration</title>
+    </head>
+    <body>
+        <h1>Welcome, {{ request.user.first_name }}</h1>
 
     <ul>
-        <li>Username: {{ request.user.username }}</li>
-        <li>Email: {{ request.user.email }}</li>
+    <li>Username: {{ request.user.username }}</li>
     </ul>
 
     <a href="{% url 'course:register' %}">Register Courses</a>
 
     <a href="{% url 'course:mycourse' %}">My Courses</a>
+
     {% if request.user.is_superuser %}
     <a href="{% url 'course:index' %}">Course Lists</a>
+    {% else %}
+    <a href="{% url 'course:index' %}">Courses Info</a>
     {% endif %}
 
+    <br>
     <a href="{% url 'users:logout' %}">Log out</a>
-{% endblock %}
+
+    </body>
+</html>
