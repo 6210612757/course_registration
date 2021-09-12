@@ -8,11 +8,19 @@
     <li>Semester : {{ course.semester }}</li>
     <li>Year : {{course.year}}</li>
     <li>Quota amount : {{course.amount}}</li>
-    <li>Status : {{course.status}}</li>
+    <li>Status : {{course.status}}</li></ul>
+    <ol>
+    {% if request.user.is_superuser %}
+    Students :
+    {% if course.registered.all|length <= 0 %}
+    <br>
+    No student registered
+    {% endif %}
     {% for student in course.registered.all %}
     <li>{{student}}</li>
     {% endfor %}
-</ul>
+    {% endif %}
+</ol>
 <a href='{%url "users:index" %}'>Back</a>
 
 {% endblock %}

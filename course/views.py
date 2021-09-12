@@ -17,12 +17,14 @@ def index(request) :
     else:
         return HttpResponseRedirect(reverse("users:login"))
 
+
 def course(request,course_id) :
     this_course = Course.objects.get(id = course_id)
     
     return render(request,"course/course.html",{
         "course" : this_course,
     })
+
 
 def register(request) :
     username = request.user.username
@@ -88,6 +90,7 @@ def confirm_register(request) :
             course.status = True
         course.save()
     return HttpResponseRedirect(reverse("course:mycourse"))
+
 
 def mycourse(request) :
     username = request.user.username
