@@ -1,42 +1,55 @@
 {% extends "course/layout.html" %}
 {% block body %}
-
     <h1>Availiable Courses for {{username}}</h1>
-    {% if request.user.is_superuser %}
-    <ul>
-        {% for course in open_courses %}
-            <li><a href='{%url "course:course" course.id %}'>{{course}}</a></b>
-                <a href='{%url "course:temp_register" course.id %}'>Register</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <h1>Willing to register</h1>
-    <ul>
-        {% for course in temp_registered %}
-            <li><b><a href='{%url "course:course" course.id %}'>{{course}}</a></b>
-            <a href='{%url "course:deregister" course.id %}'>Remove</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <ul>
-        {% for course in open_courses %}
-            <li><b>{{course}}</b>
-                <a href='{%url "course:temp_register" course.id %}'>Register</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <h1>Willing to register</h1>
-    <ul>
-        {% for course in temp_registered %}
-            <li><b>{{course}}</b>
-            <a href='{%url "course:deregister" course.id %}'>Remove</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
-    <a href='{%url "course:confirm_register" %}'>Confirm Registration</a>
     <br>
-    <a href='{%url "users:index" %}'>Back</a>
+    {% if request.user.is_superuser %}
+    <table>
+    
+        {% for course in open_courses %}
+            <tr><th><b><a href='{%url "course:course" course.id %}'>{{course}}</a></b></th>
+                
+                <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button" >Register</a></div></th>
+            </tr>
+        {% endfor %}
+    
+    </table>
+    <br>
+    <hr style="height:3px;border-width:0;color:black;background-color:black">
+    <br>
+    <h1>Willing to register</h1>
+    <br>
+    <table>
+        {% for course in temp_registered %}
+            <tr><th><b><a href='{%url "course:course" course.id %}'>{{course}}</a></b></th>
+                <th><div class="wrapper"><a href='{%url "course:deregister" course.id %}' class = "button" >Remove</a></div></th>
+            </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <table>
+        {% for course in open_courses %}
+        <tr><th><b>{{course}}</b></th>
+            
+            <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button">Register</a></div></th>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <hr style="height:3px;border-width:0;color:black;background-color:black">
+    <br>
+    <h1>Willing to register</h1>
+    <br>
+    <table>
+        {% for course in temp_registered %}
+            <tr><th><b>{{course}}</b></th>
+                <th><div class="wrapper"><a href='{%url "course:deregister" course.id %}' class = "button">Remove</a></div></th>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    <br>
+    <br>
+    <br>
+    <div class="wrapper"><b><a href='{%url "course:confirm_register" %}' class = "button2">Confirm Registration</a></b></div>
+    <a href='{%url "users:index" %}' class = "button">Back</a>
 {% endblock %}

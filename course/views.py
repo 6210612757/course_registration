@@ -19,6 +19,8 @@ def index(request) :
 
 
 def course(request,course_id) :
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("users:login"))
     this_course = Course.objects.get(id = course_id)
     
     return render(request,"course/course.html",{
@@ -27,6 +29,8 @@ def course(request,course_id) :
 
 
 def register(request) :
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("users:login"))
     username = request.user.username
     open_course = []
     user_temp = Temp_register.objects.get_or_create(user = request.user)[0]
@@ -39,10 +43,9 @@ def register(request) :
 
     for course in Course.objects.all():
        
-        if not course.isfull() and (course not in user_temp.register.all()):
+        if not course.isfull() and (course not in user_temp.register.all()) or (course.isfull() and (course not in user_temp.register.all()) and (course in registered_course)):
             open_course.append(course)
-        if (course in registered_course) and (course not in user_temp.register.all()) :
-            open_course.append(course)
+
     return render(request, "course/register.html", {
         "username" : username,
         "open_courses": open_course,
@@ -51,6 +54,8 @@ def register(request) :
 
 
 def temp_register(request,course_id) :
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("users:login"))
 
     user_temp = Temp_register.objects.get_or_create(user = request.user)[0]
     this_course = Course.objects.get(id = course_id)
@@ -61,6 +66,9 @@ def temp_register(request,course_id) :
 
 
 def temp_deregister(request,course_id) :
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("users:login"))
+
     user_temp = Temp_register.objects.get_or_create(user = request.user)[0]
     this_course = Course.objects.get(id = course_id)
 
@@ -70,6 +78,9 @@ def temp_deregister(request,course_id) :
     
 
 def confirm_register(request) :
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("users:login"))
+
     user_student = Student.objects.get (user = request.user)
     user_temp = Temp_register.objects.get_or_create(user = request.user)[0]
     
@@ -93,6 +104,9 @@ def confirm_register(request) :
 
 
 def mycourse(request) :
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("users:login"))
+        
     username = request.user.username
     registered_courses = []
     for course in Course.objects.all() :

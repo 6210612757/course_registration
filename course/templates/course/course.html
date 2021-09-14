@@ -3,24 +3,28 @@
 
 <h1>Course {{course.id}}</h1>
 <ul>
-    <li>Course name : {{ course.name }}</li>
-    <li>Course code : {{ course.code }}</li>
-    <li>Semester : {{ course.semester }}</li>
-    <li>Year : {{course.year}}</li>
-    <li>Quota amount : {{course.amount}}</li>
-    <li>Status : {{course.status}}</li></ul>
+    <li><b>Course name :</b> {{ course.name }}</li>
+    <li><b>Course code :</b> {{ course.code }}</li>
+    <li><b>Semester :</b> {{ course.semester }}</li>
+    <li><b>Year :</b> {{course.year}}</li>
+    <li><b>Quota amount :</b> {{course.amount}}</li>
+    <li><b>Status :</b> <b style = "color: rgb(201, 29, 29);">{% if course.status %}Open{% else %}Close{% endif %}</b></li></ul>
     <ol>
     {% if request.user.is_superuser %}
-    Students :
+    <b>Students :</b>
+    <br>
     {% if course.registered.all|length <= 0 %}
     <br>
     No student registered
     {% endif %}
+    
+    <br>
     {% for student in course.registered.all %}
     <li>{{student}}</li>
     {% endfor %}
     {% endif %}
 </ol>
-<a href='{%url "users:index" %}'>Back</a>
+<br>
+<a href='{%url "course:index" %}' class="button">Back</a>
 
 {% endblock %}

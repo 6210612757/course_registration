@@ -5,7 +5,7 @@ from django.contrib import admin
 from .models import *
 
 class CourseAdmin(admin.ModelAdmin) :
-    list_display = ("id","code","name","semester","year","status","amount")
+    filter_horizontal = ("registered",)
 
 class StudentAdmin(admin.ModelAdmin) :
     list_display = ("id","user","std_id")

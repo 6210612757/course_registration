@@ -8,7 +8,7 @@ class Student(models.Model) :
     std_id = models.IntegerField()
 
     def __str__(self):
-        return f"{self.std_id} {self.user.username}"
+        return f"user : {self.user.username} ID : {self.std_id} Name : {self.user.first_name} {self.user.last_name}"
 
 
 class Course(models.Model):
@@ -19,6 +19,9 @@ class Course(models.Model):
     amount = models.IntegerField()
     status = models.BooleanField()
     registered = models.ManyToManyField(Student,blank = True)
+    
+    def count_student(self) :
+        return self.registered.count()
 
     def isfull(self) :
         if self.registered.count() == self.amount :
@@ -26,7 +29,7 @@ class Course(models.Model):
         return False
         
     def __str__(self):
-        return f"{self.name} ({self.code})"
+        return f"{self.name} ( {self.code} )"
 
 
 class Temp_register(models.Model) :

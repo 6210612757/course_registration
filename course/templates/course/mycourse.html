@@ -3,11 +3,11 @@
 
     <h1>My Courses</h1>
     <ul>{% if registered_courses|length <= 0 %}
-            Not registered in any course
+            <b style = "color: red;">Not registered in any course</b>
         {% endif %}
         {% for course in registered_courses %}
-            <li><b><a href='{%url "course:course" course.id %}'>{{course}}</a></li></b>
+            <li><b>{{course}}</li></b>
         {% endfor %}
     </ul>
-    <a href='{%url "users:index" %}'>Back</a>
+    <a href='{%url "users:index" %}' class = "button">Back</a>
 {% endblock %}

@@ -1,34 +1,101 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
+    <link href = "{% static 'users/css/styles.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <style>body {
-        background-image: url("https://source.unsplash.com/nN1HSDtKdlw");
+        background-image: url("{% static 'users/img/index.jpg' %}");
         background-size: cover;
     }
         body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+        .button1 {
+            background-color:black;
+            border: none;
+            color: whitesmoke;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            }
+            .button1 span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+            }
+
+            .button1 span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+            }
+
+            .button1:hover span {
+            padding-right: 25px;
+            }
+
+            .button1:hover span:after {
+            opacity: 1;
+            right: 0;
+            }
+            .button2 {
+            background-color:rgb(233, 125, 215);
+            border: 1px solid #000000;
+            color: whitesmoke;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            transition-duration: 0.4s;
+            border-radius: 12px;
+            }
+            .button2:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+            background-color: #e24040;
+            color: white;
+            }
+            ul {
+            list-style-type: square;
+            margin: 0;
+            padding: 20px;
+            }
+            
     </style>
     <head>
         <title>Course Registration</title>
     </head>
     <body>
+        
         <h1>Welcome, {{ request.user.first_name }}</h1>
 
     <ul>
     <li>Username: {{ request.user.username }}</li>
     </ul>
 
-    <a href="{% url 'course:register' %}">Register Courses</a>
-
-    <a href="{% url 'course:mycourse' %}">My Courses</a>
-
+    <a href="{% url 'course:mycourse' %}" class="button1"><span>My Courses</span></a>
+    <br>
+    <a href="{% url 'course:register' %}" class="button1"><span>Register Courses</span></a>
+    <br>
     {% if request.user.is_superuser %}
-    <a href="{% url 'course:index' %}">Course Lists</a>
+    <a href="{% url 'course:index' %}" class="button1"><span>Course Lists</span></a>
     {% else %}
-    <a href="{% url 'course:index' %}">Courses Info</a>
+    <a href="{% url 'course:index' %}" class="button1"><span>Courses Info</span></a>
     {% endif %}
 
     <br>
-    <a href="{% url 'users:logout' %}">Log out</a>
+    <br>
+    <a href="{% url 'users:logout' %}" class="button2">Log out</a>
 
     </body>
 </html>

@@ -1,17 +1,37 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
+    <link href = "{% static 'users/css/styles.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <style>body {
-        background-image: url("https://source.unsplash.com/zA7I5BtFbvw/");
+        background-image: url("{% static 'users/img/log_reg.jpg' %}");
         background-size: cover;
     }
         body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+        input[type=text], input[type=password] ,input[type=int]{
+        width: 300px;
+        padding: 12px 20px;
+        margin: 8px 8px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        }
+        .container {
+            
+        margin: auto;
+        width: 50%;
+        padding: 32px;
+        text-align: center;
+        border: 10px solid #000000;
+        }
     </style>
     <head>
         <title>Course Registration</title>
     </head>
     <body>
+        
         {% block body %}
         {% endblock %}
+        
     </body>
 </html>

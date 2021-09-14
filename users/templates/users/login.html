@@ -1,19 +1,54 @@
 {% extends "users/layout.html" %}
 
+
 {% block body %}
 
+    <style>
+    .button {
+    background-color: #000000;
+    border: none;
+    color: white;
+    padding: 12px 64px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 12px;
+    transition-duration: 0.4s;
+    }
+    .button:hover {
+    background-color: #414141;
+    color: white;
+    }
+    
+    </style>
+    
+    <div class="container">
+    
+        <h1>Course Registration</h1>    
+    
+    <br>   
+    <br>
+    <br>
     {% if messages %}
         {% for message in messages %}
-        <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+        <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} style="color: red;"><b>{{ message }}</b></div>
         {% endfor %}
+        <br>
     {% endif %}
+    {%if fail%} <div style="color: red;"><b>{{fail}}</b></div><br> {%endif%}
 
     <form action="{% url 'users:login' %}" method="POST">
         {% csrf_token %}
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <input type="submit" value="Login">
+        <input type="text" name="username" placeholder="Username" required>
+        <br>
+        <input type="password" name="password" placeholder="Password" required>
+        <br>
+        <input type="submit" value="Login" class = "button">
     </form>
-    <a href="{% url 'users:register' %}">Register</a>
+    <br>
+    <p>Doesn't have an account?</p>
+    <a href="{% url 'users:register' %}" class = "button">Register</a>
+</div>
 
 {% endblock %}
