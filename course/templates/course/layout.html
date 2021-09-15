@@ -47,7 +47,7 @@
         width: 75%;
         table-layout: fixed;
     }
-    .button1 {
+        .button1 {
             background-color:black;
             border: none;
             color: whitesmoke;
@@ -60,14 +60,14 @@
             cursor: pointer;
             border-radius: 12px;
             }
-    .button1 span {
+        .button1 span {
             cursor: pointer;
             display: inline-block;
             position: relative;
             transition: 0.5s;
             }
 
-    .button1 span:after {
+        .button1 span:after {
             content: '\00bb';
             position: absolute;
             opacity: 0;
@@ -76,15 +76,15 @@
             transition: 0.5s;
             }
 
-    .button1:hover span {
+        .button1:hover span {
             padding-right: 25px;
             }
 
-    .button1:hover span:after {
+        .button1:hover span:after {
             opacity: 1;
             right: 0;
             }
-    .button2 {
+        .button2 {
             background-color:rgb(0, 0, 0);
             border: 20px ;
             color: whitesmoke;
@@ -99,11 +99,23 @@
             transition-duration: 0.4s;
             border-radius: 12px;
             }
-    .button2:hover {
+        .button2:hover {
             box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
             background-color: #e24040;
             color: white;
             }
+        .fakebutton {
+                background-color: #ff0000;
+                border: none;
+                color: white;
+                padding: 6px 42px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 12px;
+                cursor: pointer;
+        }
     </style>
     <head>
         <title>Courses</title>

@@ -5,10 +5,14 @@
     {% if request.user.is_superuser %}
     <table>
     
-        {% for course,num in open_courses %}
+        {% for course,num,full in open_courses %}
             <tr><th><b><a href='{%url "course:course" course.id %}'>{{course}}</a></b></th>
                 <th><b>{{num}} / {{course.amount}}</b></th>
+                {% if full and course not in registered_course%}
+                <th><div class="wrapper"><button class="fakebutton">FULL</button></div></th>
+                {% else %}
                 <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button" >Register</a></div></th>
+                {% endif %}
             </tr>
         {% endfor %}
     
@@ -27,10 +31,14 @@
     </table>
     {% else %}
     <table>
-        {% for course,num in open_courses %}
+        {% for course,num,full in open_courses %}
         <tr><th><b>{{course}}</b></th>
             <th><b>{{num}} / {{course.amount}}</b></th>
+            {% if full and course not in registered_course%}
+                <th><div class="wrapper"><button class="fakebutton">FULL</button></div></th>
+                {% else %}
             <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button">Register</a></div></th>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>
