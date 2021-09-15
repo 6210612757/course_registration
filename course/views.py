@@ -50,7 +50,7 @@ def register(request) :
         else :
             course.status = True
         course.save()
-        
+
     return render(request, "course/register.html", {
         "username" : username,
         "open_courses": open_course,
@@ -116,6 +116,11 @@ def mycourse(request) :
     username = request.user.username
     registered_courses = []
     for course in Course.objects.all() :
+        if course.isfull():
+            course.status = False
+        else :
+            course.status = True
+        course.save()
         for student in course.registered.all():
             if username == student.user.username:
                 registered_courses.append(course)
