@@ -8,8 +8,12 @@
         {% for course,num,full in open_courses %}
             <tr><th><b><a href='{%url "course:course" course.id %}'>{{course}}</a></b></th>
                 <th><b>{{num}} / {{course.amount}}</b></th>
-                {% if full and course not in registered_course%}
+                {% if full %} 
+                    {% if course in registered_course and course not in temp_registered%}
+                <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button">Register</a></div></th>
+                    {% else %}
                 <th><div class="wrapper"><button class="fakebutton">FULL</button></div></th>
+                    {% endif %}
                 {% else %}
                 <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button" >Register</a></div></th>
                 {% endif %}
@@ -34,8 +38,12 @@
         {% for course,num,full in open_courses %}
         <tr><th><b>{{course}}</b></th>
             <th><b>{{num}} / {{course.amount}}</b></th>
-            {% if full and course not in registered_course%}
-                <th><div class="wrapper"><button class="fakebutton">FULL</button></div></th>
+                {% if full %} 
+                    {% if course in registered_course and course not in temp_registered%}
+                    <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button">Register</a></div></th>
+                    {% else %}
+                    <th><div class="wrapper"><button class="fakebutton">FULL</button></div></th>
+                    {% endif %}
                 {% else %}
             <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button">Register</a></div></th>
             {% endif %}

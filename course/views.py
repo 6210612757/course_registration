@@ -43,13 +43,14 @@ def register(request) :
 
     for course in Course.objects.all():
        
-        if  (course not in user_temp.register.all()) or  (course in registered_course):
+        if  (course not in user_temp.register.all()) :
             open_course.append((course,course.registered.count(),course.isfull()))
 
     return render(request, "course/register.html", {
         "username" : username,
         "open_courses": open_course,
         "temp_registered" : temp_registered ,
+        "registered_course" : registered_course,
     })
 
 
