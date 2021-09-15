@@ -1,0 +1,15 @@
+admin
+
+username : admin
+password : root
+
+users
+
+username : parin
+password : 12345678
+
+username : wanchana
+password : 12345678
+
+username : pattana
+password : 12345678
