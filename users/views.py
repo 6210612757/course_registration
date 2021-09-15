@@ -49,8 +49,10 @@ def register_view(request):
         first_name = request.POST["first_name"]
         last_name = request.POST["last_name"]
         std_id = request.POST["std_id"]
+        if User.objects.filter(username = username).first():
+            return render(request, "users/register.html", {"fail": "This username is already taken"})
         if password != re_password:
-            return render(request, "users/register.html", {"message": "Invalid Re-Password"})
+            return render(request, "users/register.html", {"fail": "Invalid password confirm"})
         add_user = User(username=username, email=email,
                         first_name=first_name, last_name=last_name)
         bond_id = Student(user = add_user,std_id = std_id)

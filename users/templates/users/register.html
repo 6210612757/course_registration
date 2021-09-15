@@ -54,6 +54,8 @@
             <div>
                 <p>Please enter your infromation
                 </p>
+                {%if fail%} <div style="color: red;"><b>{{fail}}</b></div><br> {%endif%}
+
                 <form action="{% url 'users:register' %}" method="post" class="contact-form">
                     {% csrf_token %}
                     <div>
