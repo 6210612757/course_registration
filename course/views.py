@@ -45,7 +45,12 @@ def register(request) :
        
         if  (course not in user_temp.register.all()) :
             open_course.append((course,course.registered.count(),course.isfull()))
-
+        if course.isfull():
+            course.status = False
+        else :
+            course.status = True
+        course.save()
+        
     return render(request, "course/register.html", {
         "username" : username,
         "open_courses": open_course,
