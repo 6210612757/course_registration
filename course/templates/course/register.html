@@ -5,9 +5,9 @@
     {% if request.user.is_superuser %}
     <table>
     
-        {% for course in open_courses %}
+        {% for course,num in open_courses %}
             <tr><th><b><a href='{%url "course:course" course.id %}'>{{course}}</a></b></th>
-                
+                <th><b>{{num}} / {{course.amount}}</b></th>
                 <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button" >Register</a></div></th>
             </tr>
         {% endfor %}
@@ -27,9 +27,9 @@
     </table>
     {% else %}
     <table>
-        {% for course in open_courses %}
+        {% for course,num in open_courses %}
         <tr><th><b>{{course}}</b></th>
-            
+            <th><b>{{num}} / {{course.amount}}</b></th>
             <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button">Register</a></div></th>
         </tr>
         {% endfor %}
