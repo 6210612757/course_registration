@@ -12,9 +12,11 @@
                     {% if course in registered_course and course not in temp_registered%}
                 <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button">Register</a></div></th>
                     {% else %}
-                <th><div class="wrapper"><button class="fakebutton">FULL</button></div></th>
+                <th><div class="wrapper"><button class="fakebutton"><b>FULL</b></button></div></th>
                     {% endif %}
-                {% else %}
+                {% elif not course.status %}
+                <th><div class="wrapper"><button class="fakebutton" style="padding: 6px 30px;"><b>CLOSED</b></button></div></th>
+                {% else%}
                 <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button" >Register</a></div></th>
                 {% endif %}
             </tr>
@@ -31,6 +33,9 @@
             <tr><th><b><a href='{%url "course:course" course.id %}'>{{course}}</a></b></th>
                 <th><div class="wrapper"><a href='{%url "course:deregister" course.id %}' class = "button" >Remove</a></div></th>
             </tr>
+        {% empty %}
+            <div style="color:red; text-indent: 17%; font-size: 21px;"><b>Not registered in any course. ( Confirm to cancel all courses. )</b></div>
+        
         {% endfor %}
     </table>
     {% else %}
@@ -42,8 +47,10 @@
                     {% if course in registered_course and course not in temp_registered%}
                     <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button">Register</a></div></th>
                     {% else %}
-                    <th><div class="wrapper"><button class="fakebutton">FULL</button></div></th>
+                    <th><div class="wrapper"><button class="fakebutton"><b>FULL</b></button></div></th>
                     {% endif %}
+                {% elif not course.status %}
+                    <th><div class="wrapper"><button class="fakebutton" style="padding: 6px 30px;;"><b>CLOSED</b></button></div></th>
                 {% else %}
             <th><div class="wrapper"><a href='{%url "course:temp_register" course.id %}' class = "button">Register</a></div></th>
             {% endif %}
@@ -60,6 +67,9 @@
             <tr><th><b>{{course}}</b></th>
                 <th><div class="wrapper"><a href='{%url "course:deregister" course.id %}' class = "button">Remove</a></div></th>
             </tr>
+        {% empty %}
+            <div style="color:red; text-indent: 17%; font-size: 21px;"><b>Not registered in any course. ( Confirm to cancel all courses. )</b></div>
+        
         {% endfor %}
     </table>
     {% endif %}

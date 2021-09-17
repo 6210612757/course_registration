@@ -8,7 +8,29 @@
     <li><b>Semester :</b> {{ course.semester }}</li>
     <li><b>Year :</b> {{course.year}}</li>
     <li><b>Quota amount :</b> {{course.amount}}</li>
-    <li><b>Status :</b> <b style = "color: rgb(201, 29, 29);">{% if course.status %}Open{% else %}Close{% endif %}</b></li></ul>
+    <li><b>Status :</b> 
+        {% if course.status %}
+        <b style = "color: rgb(0, 255, 21);">
+        Open
+        </b>
+        {% else %}
+        <b style = "color: rgb(201, 29, 29);">
+        Close
+        </b>
+        {% endif %}
+    </b></li>
+    
+    {% if request.user.is_superuser %}
+        {% if course.status %}
+        <a href='{%url "course:status" course.id %}' class="button">Close</a>
+        {% else %}
+        <a href='{%url "course:status" course.id %}' class="button">Open</a>
+        {% endif %}
+    {% endif %}
+
+
+</ul>
+    
     <ol>
     {% if request.user.is_superuser %}
     <b>Students :</b>

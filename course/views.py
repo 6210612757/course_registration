@@ -8,117 +8,122 @@ from django.contrib import messages
 
 from .models import *
 
-def index(request) :
+
+def index(request):
     if request.user.is_authenticated:
         return render(request, "course/index.html", {
             "courses": Course.objects.all()
         })
-        
+
     else:
         return HttpResponseRedirect(reverse("users:login"))
 
 
-def course(request,course_id) :
+def course(request, course_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("users:login"))
-    this_course = Course.objects.get(id = course_id)
-    
-    return render(request,"course/course.html",{
-        "course" : this_course,
+    this_course = Course.objects.get(id=course_id)
+
+    return render(request, "course/course.html", {
+        "course": this_course,
     })
 
 
-def register(request) :
+def register(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("users:login"))
     username = request.user.username
     open_course = []
-    user_temp = Temp_register.objects.get_or_create(user = request.user)[0]
+    user_temp = Temp_register.objects.get_or_create(user=request.user)[0]
     temp_registered = user_temp.register.all()
     registered_course = []
-    for course in Course.objects.all() :
+    for course in Course.objects.all():
         for student in course.registered.all():
             if request.user == student.user:
                 registered_course.append(course)
 
     for course in Course.objects.all():
-       
-        if  (course not in user_temp.register.all()) :
-            open_course.append((course,course.registered.count(),course.isfull()))
+
+        if (course not in user_temp.register.all()):
+            open_course.append(
+                (course, course.registered.count(), course.isfull()))
+
         if course.isfull():
             course.status = False
-        else :
+        elif (not course.isfull()) & (course.status == False):
+            course.status = False
+        else:
             course.status = True
         course.save()
 
     return render(request, "course/register.html", {
-        "username" : username,
+        "username": username,
         "open_courses": open_course,
-        "temp_registered" : temp_registered ,
-        "registered_course" : registered_course,
+        "temp_registered": temp_registered,
+        "registered_course": registered_course,
     })
 
 
-def temp_register(request,course_id) :
+def temp_register(request, course_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("users:login"))
 
-    user_temp = Temp_register.objects.get_or_create(user = request.user)[0]
-    this_course = Course.objects.get(id = course_id)
-    
+    user_temp = Temp_register.objects.get_or_create(user=request.user)[0]
+    this_course = Course.objects.get(id=course_id)
+
     user_temp.register.add(this_course)
     user_temp.save()
     return HttpResponseRedirect(reverse("course:register"))
 
 
-def temp_deregister(request,course_id) :
+def temp_deregister(request, course_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("users:login"))
 
-    user_temp = Temp_register.objects.get_or_create(user = request.user)[0]
-    this_course = Course.objects.get(id = course_id)
+    user_temp = Temp_register.objects.get_or_create(user=request.user)[0]
+    this_course = Course.objects.get(id=course_id)
 
     user_temp.register.remove(this_course)
     user_temp.save()
     return HttpResponseRedirect(reverse("course:register"))
-    
 
-def confirm_register(request) :
+
+def confirm_register(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("users:login"))
 
-    user_student = Student.objects.get (user = request.user)
-    user_temp = Temp_register.objects.get_or_create(user = request.user)[0]
-    
+    user_student = Student.objects.get(user=request.user)
+    user_temp = Temp_register.objects.get_or_create(user=request.user)[0]
+
     registered_course = []
-    for course in Course.objects.all() :
+    for course in Course.objects.all():
         for student in course.registered.all():
             if request.user == student.user:
                 registered_course.append(course)
-    for course in registered_course :
+    for course in registered_course:
         course.registered.remove(user_student)
         course.save()
-    for course in user_temp.register.all() :
-        if user_student not in course.registered.all() :
+    for course in user_temp.register.all():
+        if user_student not in course.registered.all():
             course.registered.add(user_student)
         if course.isfull():
             course.status = False
-        else :
+        else:
             course.status = True
         course.save()
     return HttpResponseRedirect(reverse("course:mycourse"))
 
 
-def mycourse(request) :
+def mycourse(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("users:login"))
-        
+
     username = request.user.username
     registered_courses = []
-    for course in Course.objects.all() :
+    for course in Course.objects.all():
         if course.isfull():
             course.status = False
-        else :
+        else:
             course.status = True
         course.save()
         for student in course.registered.all():
@@ -128,3 +133,12 @@ def mycourse(request) :
     return render(request, "course/mycourse.html", {
         "registered_courses": registered_courses,
     })
+
+
+def status(request, course_id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("users:login"))
+    course = Course.objects.get(id=course_id)
+    course.status = not course.status
+    course.save()
+    return HttpResponseRedirect(reverse("course:course", args=(course.id, )))
