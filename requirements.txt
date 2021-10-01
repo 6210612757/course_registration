@@ -1,4 +1,4 @@
 Django==3.2.6
 gunicorn
 django-heroku
-
+converage==5.5
