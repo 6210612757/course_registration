@@ -51,6 +51,8 @@ def register_view(request):
         std_id = request.POST["std_id"]
         if User.objects.filter(username = username).first():
             return render(request, "users/register.html", {"fail": "This username is already taken"})
+        if Student.objects.filter(std_id = std_id).first():
+            return render(request, "users/register.html", {"fail": "Student ID already taken"})
         if (not std_id.isnumeric()) or (len(std_id) > 10 or len(std_id) < 10):
             return render(request, "users/register.html", {"fail": "Student ID must be an integer with length of 10"})
         if password != re_password:
